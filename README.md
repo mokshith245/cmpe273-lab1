@@ -12,8 +12,8 @@ You need **two separate terminals**.
 **Terminal 1 — Service A (port 8080):**
 ```bash
 cd service-a
-python3 -m venv .venv
-source .venv/bin/activate
+python3 -m venv venv
+source venv/bin/activate
 pip install -r requirements.txt
 python app.py
 ```
@@ -21,11 +21,31 @@ python app.py
 **Terminal 2 — Service B (port 8081):**
 ```bash
 cd service-b
-python3 -m venv .venv
-source .venv/bin/activate
+python3 -m venv venv
+source venv/bin/activate
 pip install -r requirements.txt
 python app.py
 ```
+
+## Screenshots
+
+### Both Services Running
+
+Service A (port 8080) and Service B (port 8081) running side by side:
+
+![Both services running](screenshots/both-services-running.png)
+
+### Service A Stopped (Failure Scenario)
+
+Service A stopped with Ctrl+C — Service B handles the failure gracefully:
+
+![Service A stopped](screenshots/service-a-stopped.png)
+
+### Curl Test Results
+
+Success response (both services up) and failure response (Service A down):
+
+![Curl test results](screenshots/curl-test-results.png)
 
 ## Test Results
 
@@ -59,4 +79,5 @@ Service B log:
 
 ## What Makes This Distributed?
 
-This system is distributed because it consists of two independent processes (Service A and Service B) that communicate over the network using HTTP, each running on its own port. Neither service shares memory or state with the other — they can be started, stopped, and fail independently. When Service A goes down, Service B continues to run and handles the failure gracefully by returning a 503 status code. This demonstrates key distributed systems properties: network communication, independent failure modes, and the need for timeout handling, since Service B cannot assume Service A will always be available or respond promptly.
+This system is distributed because it consists of two independent processes (Service A and Service B) that communicate over the network using HTTP, each running on its own port. Neither service shares memory or state with the other they can be started, stopped, and fail independently. When Service A goes down, Service B continues to run and handles the failure gracefully by returning a 503 status code.
+ This demonstrates key distributed systems properties: network communication, independent failure modes, and the need for timeout handling, since Service B cannot assume Service A will always be available or respond promptly.
